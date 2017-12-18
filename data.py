@@ -2,6 +2,7 @@ import numpy as np
 import math
 import random
 import sys
+import pickle
 
 
 tot_values = 400
@@ -42,6 +43,9 @@ def f(x0, x1, x2, x3):
 Y = [] # 1 x 1  ct
 X = [] # 1 x 4  c0 c1 t0 t1
 
+output = open('data.pkl', 'wb')
+dumped = []
+
 for i in range(tot_values):
     c0 = x0()
     c1 = x1(c0)
@@ -52,6 +56,13 @@ for i in X:
     [c0,c1,c2,c3] = i
     y0 = f(c0, c1, c2, c3)
     Y.append(y0)
-    print c0, c1, c2, c3, '===>', y0
+    dumped.append([c0, c1, c2, c3, y0])
+
+
+pickle.dump(dumped, output)
+output.close()
+
+print "generate data done"
+
 
 
