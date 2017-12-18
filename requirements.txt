@@ -1,0 +1,5 @@
+numpy
+openopt
+matplotlib
+pyparsing
+cvxopt
