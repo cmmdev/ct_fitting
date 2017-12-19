@@ -82,4 +82,8 @@ ax.set_zlabel('Z Label')
 plt.show()
 
 
+# 150 180 30
+# 195 210 30
+
+
 
