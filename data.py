@@ -3,6 +3,8 @@ import math
 import random
 import sys
 import pickle
+import os
+import sklearn
 
 
 tot_values = 400
@@ -33,15 +35,19 @@ def x3(x2):
 
 
 def g(c0, c1):
-    return abs(c0-c1)*math.pow(math.e, abs(c1-150)/255.)
+    return abs(c0 - c1) * math.pow(math.e, abs(c1 - 150) / 255.)
+
+
+def f1(x_0, x1, x2, x3):
+    return g(x_0, x1) / g(x2, x3) + 0.1 * np.random.normal(mean, variance)
 
 
 def f(x0, x1, x2, x3):
-    return g(x0, x1) / g(x2, x3) + 0.1 * np.random.normal(mean, variance)
+    return abs(x0 - x1) / (abs(x2 - x3) + 0.0001)
 
+X = []  # 1 x 4  c0 c1 t0 t1
 
-Y = [] # 1 x 1  ct
-X = [] # 1 x 4  c0 c1 t0 t1
+os.remove('data.pkl')
 
 output = open('data.pkl', 'wb')
 dumped = []
@@ -51,18 +57,26 @@ for i in range(tot_values):
     c1 = x1(c0)
     c2 = x2(c0)
     c3 = x3(c2)
-    X.append([c0,c1,c2,c3])
+    g0 = g(c0, c1)
+    g1 = g(c2, c3)
+
+    X.append([c0, c1, c2, c3, g0, g1])
+
 for i in X:
-    [c0,c1,c2,c3] = i
+    [c0, c1, c2, c3, g0, g1] = i
     y0 = f(c0, c1, c2, c3)
-    Y.append(y0)
-    dumped.append([c0, c1, c2, c3, y0])
+    dumped.append([c0, c1, c2, c3, g0, g1, y0])
 
 
 pickle.dump(dumped, output)
 output.close()
 
-print "generate data done"
+print "generate data [c0, c1, t0, t1, y0] done"
+
+print sklearn.__version__
+
+
+
 
 
 
