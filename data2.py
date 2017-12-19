@@ -27,7 +27,22 @@ def x1(x0):
 
 
 def g(c0, c1):
+    print type(c0), type(c1)
     return abs(c0 - c1) * math.pow(math.e, abs(c1 - 150) / 110.) + 2.0 * np.random.normal(mean, variance)
+
+
+def g_nd(c0, c1):
+    result = []
+    for i in range(len(c0)):
+        row = []
+        for j in range(len(c0[i,::])):
+            c0f = c0[i,j]
+            c1f = c1[i,j]
+            row.append(g(c0f, c1f))
+        result.append(row)
+    return np.array(result)
+
+
 
 
 X = []  # 1 x 2  c0 c1
@@ -79,11 +94,17 @@ ax.set_xlabel('X Label')
 ax.set_ylabel('Y Label')
 ax.set_zlabel('Z Label')
 
+# plt.show()
+
+
+ ### plot mesh
+fig = plt.figure()
+
+x, y = np.mgrid[140:255:10, 140:255:10]
+ax.plot_surface(x, y, g_nd(x,y), rstride=1, cstride=1)
+ax.set_zlim(0, 0.2)
+
+# savefig('../figures/plot3d_ex.png',dpi=48)
 plt.show()
-
-
-# 150 180 30
-# 195 210 30
-
 
 
