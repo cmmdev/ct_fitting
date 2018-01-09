@@ -34,8 +34,3 @@ for i in range(len(test)):
 
 print len(data)
 
-
-
-# plot
-
-

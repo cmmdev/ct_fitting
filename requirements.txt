@@ -3,3 +3,5 @@ openopt
 matplotlib
 pyparsing
 cvxopt
+xlrd
+pandas

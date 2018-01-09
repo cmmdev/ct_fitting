@@ -5,6 +5,8 @@ import sys
 import pickle
 import os
 import sklearn
+import pprint
+from matplotlib import cm
 
 
 tot_values = 400
@@ -14,8 +16,8 @@ lower_limit = 0
 upper_limit = 10
 
 # simulate data.
-# X: [ [x0(150-240), x1(x0~250)]
-# y:  g(c0,c1) = |c0-c1|*e^|(|c1-150\)/255| * (1+random()*0.1)
+# X: [ [x0(150-255), x1[0, x0] ]
+# y: Rg(c0,c1) = |c0-c1|*e^|(|c1-150\)/255| * (1+random()*0.1)
 
 
 def x0():
@@ -27,8 +29,7 @@ def x1(x0):
 
 
 def g(c0, c1):
-    print type(c0), type(c1)
-    return abs(c0 - c1) * math.pow(math.e, abs(c1 - 150) / 110.) + 2.0 * np.random.normal(mean, variance)
+    return abs(c0 - c1) * math.pow(math.e, abs(c1 - 150) / 110.) + 10.0 * np.random.normal(mean, variance)
 
 
 def g_nd(c0, c1):
@@ -41,7 +42,6 @@ def g_nd(c0, c1):
             row.append(g(c0f, c1f))
         result.append(row)
     return np.array(result)
-
 
 
 
@@ -94,17 +94,15 @@ ax.set_xlabel('X Label')
 ax.set_ylabel('Y Label')
 ax.set_zlabel('Z Label')
 
-# plt.show()
-
 
  ### plot mesh
-fig = plt.figure()
-
 x, y = np.mgrid[140:255:10, 140:255:10]
-ax.plot_surface(x, y, g_nd(x,y), rstride=1, cstride=1)
-ax.set_zlim(0, 0.2)
 
-# savefig('../figures/plot3d_ex.png',dpi=48)
+pprint.pprint(g_nd(x,y))
+# ax.plot_surface(x, y, g_nd(x,y), rstride=1, cstride=1, cmap=cm.coolwarm)
+ax.plot_wireframe(x, y, g_nd(x,y), rstride=1, cstride=1)
+ax.set_zlim(0, 255)
+
 plt.show()
 
 
